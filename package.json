@@ -1,6 +1,6 @@
 {
-	"name": "node-boilerplate",
-	"version": "0.0.1",
+	"name": "tu-touch-backservices",
+	"version": "0.1.0",
 	"main": "index.js",
 	"repository": "https://github.com/kennaruk/node-boilerplate.git",
 	"author": "Nitipat Wuttisasiwat <k-e-n_ken@hotmail.com>",
