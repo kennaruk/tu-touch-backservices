@@ -3,7 +3,9 @@ import request from "request";
 const LOGIN_URL = "https://web.reg.tu.ac.th/registrar/validate-direct.asp";
 const GRADE_URL = "https://web.reg.tu.ac.th/registrar/grade.asp";
 
-export const requestLoginCookiesByUsernamePassword = async ({
+import { formatGradeHTMLToJson } from "./formatData";
+
+const requestLoginCookiesByUsernamePassword = async ({
 	username,
 	password
 }) => {
@@ -28,7 +30,7 @@ export const requestLoginCookiesByUsernamePassword = async ({
 		});
 	});
 };
-export const requestGradeHTMLByCookies = async ({ cookies }) => {
+const requestGradeHTMLByCookies = async ({ cookies }) => {
 	return new Promise((resolve, reject) => {
 		var options = {
 			method: "GET",
@@ -56,5 +58,21 @@ export const requestGradeHTMLByCookies = async ({ cookies }) => {
 				resolve({ html: body });
 			}
 		});
+	});
+};
+
+export const getGradesByUsernamePassword = ({ username, password }) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			const { cookies } = await requestLoginCookiesByUsernamePassword({
+				username,
+				password
+			});
+			const { html } = await requestGradeHTMLByCookies({ cookies });
+			const { grades } = await formatGradeHTMLToJson({ html });
+			resolve({ grades });
+		} catch (error) {
+			reject(error);
+		}
 	});
 };

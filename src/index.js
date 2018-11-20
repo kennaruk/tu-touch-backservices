@@ -1,23 +1,80 @@
 import "../env";
 
-import {
-	requestLoginCookiesByUsernamePassword,
-	requestGradeHTMLByCookies
-} from "./controllers/regTU";
-import { formatGradeHTMLToJson } from "./controllers/formatData";
+import Debug from "debug";
+const debug = Debug("tu-touch:api");
+import { json } from "body-parser";
+import express from "express";
+const app = express();
+app.use(json());
 
-const { STD_ID = "", STD_PWD = "" } = process.env;
-const main = async () => {
+import { getGradesByUsernamePassword } from "./controllers/regTU";
+import {
+	upsertUserByUsernamePassword,
+	upsertUserByRfidUsernamePassword,
+	findUserByRfid
+} from "./controllers/user";
+
+app.post("/", async function(req, res) {
 	try {
-		const { cookies } = await requestLoginCookiesByUsernamePassword({
-			username: STD_ID,
-			password: STD_PWD
-		});
-		const { html } = await requestGradeHTMLByCookies({ cookies });
-		const { grades } = await formatGradeHTMLToJson({ html });
-		console.log(grades);
+		const { stdId = "", stdPwd = "", stdRfid = "" } = req.body;
+		if (stdId && stdPwd && stdRfid) {
+			const payload = {
+				username: stdId,
+				password: stdPwd,
+				rfid: stdRfid
+			};
+			const { grades } = await getGradesByUsernamePassword(payload);
+
+			const { result: upsertResult } = await upsertUserByRfidUsernamePassword(
+				payload
+			);
+			debug(`upsertResult: ${upsertResult}`);
+
+			res.status(200).send(grades);
+		} else if (stdRfid) {
+			const { user } = await findUserByRfid({ rfid: stdRfid });
+			debug(`rfid user: ${user}`);
+
+			if (!user) res.status(201).send("กรุณาลงทะเบียนสำหรับใช้ครั้งแรก");
+			else {
+				const { username, password } = user;
+				const { grades } = await getGradesByUsernamePassword({
+					username,
+					password
+				});
+
+				const { result: upsertResult } = await upsertUserByUsernamePassword({
+					username,
+					password
+				});
+				debug(`upsertResult: ${upsertResult}`);
+
+				res.status(200).send(grades);
+			}
+		} else if (!stdId) throw new Error("รหัสนักศึกษาไม่ถูกต้อง");
+		else if (!stdPwd) throw new Error("รหัสผ่านไม่ถูกต้อง");
+		else {
+			const payload = {
+				username: stdId,
+				password: stdPwd
+			};
+			const { grades } = await getGradesByUsernamePassword(payload);
+
+			const { result: upsertResult } = await upsertUserByUsernamePassword(
+				payload
+			);
+			debug(`upsertResult: ${upsertResult}`);
+
+			res.status(200).send(grades);
+		}
 	} catch (error) {
-		console.log(error);
+		const { message = error } = error;
+
+		debug(`error: ${message}`);
+		res.status(400).send(message || error);
 	}
-};
-main();
+});
+
+const { PORT = 3000 } = process.env;
+debug(`listen on port :${PORT}`);
+app.listen(PORT);

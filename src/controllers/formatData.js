@@ -1,4 +1,3 @@
-import JSSoup from "jssoup";
 import $ from "cheerio";
 
 export const formatGradeHTMLToJson = ({ html }) => {
@@ -21,7 +20,6 @@ export const formatGradeHTMLToJson = ({ html }) => {
 
 			let jsons = [];
 			filteredRows.each(function(i, row) {
-				const { attribs } = row;
 				const data = $(this).find("td");
 				jsons.push({
 					coursId: $(data[0])
@@ -42,7 +40,6 @@ export const formatGradeHTMLToJson = ({ html }) => {
 						.toUpperCase()
 				});
 			});
-			// console.log(jsons);
 			resolve({ grades: jsons });
 		} catch (error) {
 			reject(error);

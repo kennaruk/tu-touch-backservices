@@ -1,0 +1,12 @@
+version: "3"
+services:
+  tu_touch_mongodb:
+    image: mongo:3.6
+    command: --smallfiles
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: tutouch
+      MONGO_INITDB_ROOT_PASSWORD: password
+    ports:
+      - 22222:27017
+    volumes:
+      - ./mongo:/data/db
