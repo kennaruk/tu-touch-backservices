@@ -6,7 +6,9 @@
 	"author": "Nitipat Wuttisasiwat <k-e-n_ken@hotmail.com>",
 	"license": "MIT",
 	"scripts": {
-		"dev": "nodemon src/index.js --exec babel-node"
+		"dev": "nodemon src/index.js --exec babel-node",
+		"build": "babel src/ -d dist",
+		"start": "node dist/bin/www.js"
 	},
 	"devDependencies": {
 		"@babel/cli": "7.0.0-beta.54",
