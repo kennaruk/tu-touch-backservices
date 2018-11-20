@@ -1,20 +1,26 @@
 {
-  "name": "node-boilerplate",
-  "version": "0.0.1",
-  "main": "index.js",
-  "repository": "https://github.com/kennaruk/node-boilerplate.git",
-  "author": "Nitipat Wuttisasiwat <k-e-n_ken@hotmail.com>",
-  "license": "MIT",
-  "devDependencies": {
-    "@babel/cli": "7.0.0-beta.54",
-    "@babel/core": "7.0.0-beta.54",
-    "@babel/node": "7.0.0-beta.54",
-    "@babel/plugin-syntax-dynamic-import": "7.0.0-beta.54",
-    "@babel/preset-env": "7.0.0-beta.54"
-  },
-  "dependencies": {
-    "cross-env": "^5.2.0",
-    "debug": "^4.1.0",
-    "dotenv": "^6.1.0"
-  }
+	"name": "node-boilerplate",
+	"version": "0.0.1",
+	"main": "index.js",
+	"repository": "https://github.com/kennaruk/node-boilerplate.git",
+	"author": "Nitipat Wuttisasiwat <k-e-n_ken@hotmail.com>",
+	"license": "MIT",
+	"scripts": {
+		"dev": "nodemon src/index.js --exec babel-node"
+	},
+	"devDependencies": {
+		"@babel/cli": "7.0.0-beta.54",
+		"@babel/core": "7.0.0-beta.54",
+		"@babel/node": "7.0.0-beta.54",
+		"@babel/plugin-syntax-dynamic-import": "7.0.0-beta.54",
+		"@babel/preset-env": "7.0.0-beta.54"
+	},
+	"dependencies": {
+		"cheerio": "^1.0.0-rc.2",
+		"cross-env": "^5.2.0",
+		"debug": "^4.1.0",
+		"dotenv": "^6.1.0",
+		"jssoup": "^0.0.10",
+		"request": "^2.88.0"
+	}
 }
