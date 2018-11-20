@@ -22,7 +22,7 @@ export const formatGradeHTMLToJson = ({ html }) => {
 			filteredRows.each(function(i, row) {
 				const data = $(this).find("td");
 				jsons.push({
-					coursId: $(data[0])
+					courseId: $(data[0])
 						.text()
 						.trim()
 						.toUpperCase(),

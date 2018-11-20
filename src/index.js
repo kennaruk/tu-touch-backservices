@@ -6,6 +6,8 @@ import { json } from "body-parser";
 import express from "express";
 const app = express();
 app.use(json());
+import morgan from "morgan";
+app.use(morgan("dev"));
 
 import { getGradesByUsernamePassword } from "./controllers/regTU";
 import {
