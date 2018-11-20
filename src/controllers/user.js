@@ -1,4 +1,4 @@
-import { user: User } from "../model";
+import { user as User } from "../model";
 
 export const insertByUsernamePassword = async ({ username, password }) => {
 	try {
