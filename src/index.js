@@ -1,4 +1,4 @@
-import "../env";
+import "./env";
 
 import Debug from "debug";
 const debug = Debug("tu-touch:api");
