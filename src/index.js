@@ -14,9 +14,9 @@ import {
 	findUserByRfid
 } from "./controllers/user";
 
-app.post("/", async function(req, res) {
+app.get("/", async function(req, res) {
 	try {
-		const { stdId = "", stdPwd = "", stdRfid = "" } = req.body;
+		const { stdId = "", stdPwd = "", stdRfid = "" } = req.query;
 		if (stdId && stdPwd && stdRfid) {
 			const payload = {
 				username: stdId,
