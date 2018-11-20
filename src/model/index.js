@@ -40,7 +40,7 @@ readdir(__dirname, (err, files) => {
 		 */
 		if (file !== "index.js") {
 			const fileName = file.split(".")[0];
-			const moduleName = fileName.charAt(0).toUpperCase() + fileName.substr(1);
+			const moduleName = fileName.charAt(0) + fileName.substr(1);
 			exports[moduleName] = require("./" + moduleName)["model"];
 		}
 	});
