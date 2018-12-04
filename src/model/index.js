@@ -10,7 +10,7 @@ import { readdir } from "fs";
 
 const connURL = process.env.MONGO_CONN;
 const dbName = process.env.MONGO_DB || "";
-const conn = `${connURL}${dbName}`;
+const conn = `${connURL}/${dbName}`;
 
 debug(`Connecting to mongodb ${conn}`);
 mongoose

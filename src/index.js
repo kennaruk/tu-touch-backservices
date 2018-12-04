@@ -17,8 +17,12 @@ import {
 } from "./controllers/user";
 
 app.get("/", async function(req, res) {
+	// (async () => {
 	try {
 		const { stdId = "", stdPwd = "", stdRfid = "" } = req.query;
+		// const stdId = "5809610248",
+		// 	stdPwd = "ilovetu",
+		// 	stdRfid = "";
 		if (stdId && stdPwd && stdRfid) {
 			const payload = {
 				username: stdId,
@@ -44,6 +48,7 @@ app.get("/", async function(req, res) {
 					username,
 					password
 				});
+				debug(`grades: ${grades}`);
 
 				const { result: upsertResult } = await upsertUserByUsernamePassword({
 					username,
@@ -61,6 +66,7 @@ app.get("/", async function(req, res) {
 				password: stdPwd
 			};
 			const { grades } = await getGradesByUsernamePassword(payload);
+			debug("grades %o", grades);
 
 			const { result: upsertResult } = await upsertUserByUsernamePassword(
 				payload
@@ -76,7 +82,7 @@ app.get("/", async function(req, res) {
 		res.status(400).send(message || error);
 	}
 });
-
+// })();
 const { PORT = 3000 } = process.env;
 debug(`listen on port :${PORT}`);
 app.listen(PORT);
